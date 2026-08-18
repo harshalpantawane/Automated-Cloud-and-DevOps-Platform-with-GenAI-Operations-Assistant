@@ -12,7 +12,3 @@ variable "public_subnet_count" {
 variable "private_subnet_count" {
   description = "Private Subnet Number"
 }
-variable "az_name" {
-  description = "Availibility Zone"
-  type = string
-}

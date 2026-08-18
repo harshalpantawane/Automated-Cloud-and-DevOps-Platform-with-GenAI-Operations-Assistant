@@ -1,10 +1,11 @@
 locals {
   public_subnet_count  = var.public_subnet_count
   private_subnet_count = var.private_subnet_count
-  az_name              = var.az_name
+  az_names              = data.aws_availibility_zones.azs.name
 }
 resource "aws_vpc" "poject_vpc" {
   cidr_block           = var.vpc_cidr
+  # Runs on multi-tenant physical hardware. This is the standard, most cost-effective option for almost all workloads.
   instance_tenancy     = "default"
   enable_dns_support   = true
   enable_dns_hostnames = true
@@ -14,11 +15,12 @@ resource "aws_vpc" "poject_vpc" {
 }
 
 resource "aws_subnet" "public_subnet" {
+  # count = Terraform loops that block 3 times.
   count = local.public_subnet_count
 
   vpc_id                  = aws_vpc.poject_vpc.id
   cidr_block              = cidrsubnet(var.vpc_cidr, 8, count.index)
-  availability_zone       =  local.az_name[count.index]
+  availability_zone       =  local.az_names[count.index]
   map_public_ip_on_launch = true
 
   tags = {
@@ -27,11 +29,12 @@ resource "aws_subnet" "public_subnet" {
 }
 
 resource "aws_subnet" "private_subnet" {
+  # Create the specified number of public subnets defined in local variables
   count = local.private_subnet_count
 
   vpc_id = aws_vpc.project_vpc.id
   cidr_block = cidrsubnet(var.vpc_cidr, 8, count.index + 10)
-  availability_zone = local.az_name[count.index]
+  availability_zone = local.az_names[count.index]
   
   tags = {
     Name = "${var.env_name}-pri-sub-${count.index + 1}"
