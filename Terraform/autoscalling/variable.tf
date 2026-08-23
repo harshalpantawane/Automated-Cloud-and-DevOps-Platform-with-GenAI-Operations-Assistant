@@ -57,3 +57,18 @@ variable "rds_db_parameter_name" {
   type = string
   description = "rds db parameter name"
 }
+
+variable "nlb_dns_endpoint" {
+  description = "nlb dns endpoint"
+  type = string
+}
+
+variable "fe_instance_type" {
+  description = "fe instance type"
+  type = string
+
+}
+ variable "alb_tg_arn" {
+   description = "alb tg arn"
+   type = string
+ }
