@@ -1,13 +1,13 @@
 output "vpc_id" {
-  value = aws_vpc.poject_vpc.id
+  value = aws_vpc.project_vpc.id
 }
 output "vpc_cidr" {
-  value = aws_vpc.poject_vpc.cidr_block
+  value = aws_vpc.project_vpc.cidr_block
 }
-output "public_subent_ids" {
-  value = [for subnet in aws_aws_subnet.public_subnet : subnet.id]
+output "public_subnet_ids" {
+  value = [for subnet in aws_subnet.public_subnets : subnet.id]
 }
 
 output "private_subnet_ids" {
-  value = [for subnet in aws_aws_subnet.private_subnet : subnet.id]
+  value = [for subnet in aws_subnet.private_subnets : subnet.id]
 }
